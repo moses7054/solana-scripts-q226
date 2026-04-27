@@ -45,7 +45,7 @@ umi.use(signerIdentity(signer));
         })
 
         const result = await tx.sendAndConfirm(umi);
-        console.log(bs58.encode(Buffer.from(result.signature)));
+        console.log("signature: ",bs58.encode(Buffer.from(result.signature)));
     }
     catch (error) {
         console.log("error",error);

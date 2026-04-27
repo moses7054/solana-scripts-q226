@@ -10,6 +10,6 @@ node_modules/
 .env.production
 
 devnet-wallet.json
-image-cat.jpeg
+images-cat.jpeg
 
 wallet.json

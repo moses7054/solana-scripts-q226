@@ -34,7 +34,7 @@ try {
     });
 
     const [myUri] = await umi.uploader.upload([file]);
-    console.log("Yout image URI: ", myUri);
+    console.log("Your image URI: ", myUri);
 }
 catch(error) {
     console.log(error);

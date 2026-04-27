@@ -67,7 +67,7 @@ const mint = address("2btcMxFXjny6xFBUiKNAjEWwjZhcXjnvhfKstHjjHBxp");
         
     await sendAndConfirm(signedTx, {commitment: "confirmed"});
 
-    console.log(` mint txid: ${signature}`);
+    console.log(`mint txid: ${signature}`);
     }
     catch (error)
     {

@@ -27,7 +27,7 @@ npm install
 npm install --save-dev @types/node ts-node typescript
 ```
 
-### 3. Add your image (NFT only)
+### 3. Add your image
 
 Place your image at the project root.
 
