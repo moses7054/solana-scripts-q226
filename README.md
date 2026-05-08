@@ -46,7 +46,10 @@ Run these in order. Each script prints the address or signature you need to past
 
 ## NFT
 
-Add your image at the project root (`image.jpeg`), then run in order:
+Add your image at the project root (`image.jpeg`), then run in order.
+
+> Need a quick rug? Generate one at **https://bergabman.github.io/generug_v2/**, download it, and use that as your NFT image.
+
 
 | Command | What it does |
 |---|---|
