@@ -1,13 +1,14 @@
+import "dotenv/config";
 import { address, appendTransactionMessageInstructions, assertIsTransactionWithBlockhashLifetime, createKeyPairSignerFromBytes, createSolanaRpc, createSolanaRpcSubscriptions, createTransactionMessage, getSignatureFromTransaction, sendAndConfirmTransactionFactory, setTransactionMessageFeePayerSigner, setTransactionMessageLifetimeUsingBlockhash, signTransactionMessageWithSigners } from "@solana/kit";
 import wallet from "../../devnet-wallet.json"
 import { findAssociatedTokenPda, getCreateAssociatedTokenInstructionAsync, getTransferCheckedInstruction, TOKEN_PROGRAM_ADDRESS } from "@solana-program/token";
 
-const rpc = createSolanaRpc("https://api.devnet.solana.com");
+const rpc = createSolanaRpc(process.env.SOLANA_RPC_URL ?? "https://api.devnet.solana.com");
 
-const rpcSubscriptions = createSolanaRpcSubscriptions("wss://api.devnet.solana.com");
+const rpcSubscriptions = createSolanaRpcSubscriptions(process.env.SOLANA_WS_URL ?? "wss://api.devnet.solana.com");
 
 //paste your mint address got from spl_init.ts
-const mint = address("2btcMxFXjny6xFBUiKNAjEWwjZhcXjnvhfKstHjjHBxp");
+const mint = address("Hbf5fkVGzcxqwdhHbdMjD5UBTZ6LuGvx689UnAEoUfy9");
 
 //paste the address of the recipient
 const to = address("FECajuKAyYCEp1woG9K42iJeKCAJjKUpxzXDx9FPpfWk");

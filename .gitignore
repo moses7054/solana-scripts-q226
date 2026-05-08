@@ -13,3 +13,6 @@ devnet-wallet.json
 images-cat.jpeg
 
 wallet.json
+.surfpool
+
+src/nft/nft_add_royalties.ts

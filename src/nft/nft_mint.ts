@@ -1,11 +1,11 @@
+import "dotenv/config";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import wallet from "../../devnet-wallet.json";
 import { createSignerFromKeypair, generateSigner, signerIdentity } from "@metaplex-foundation/umi";
 import { create, mplCore } from "@metaplex-foundation/mpl-core";
 import { base58 } from "@metaplex-foundation/umi/serializers";
 
-
-const umi = createUmi("https://api.devnet.solana.com");
+const umi = createUmi(process.env.SOLANA_RPC_URL ?? "https://api.devnet.solana.com");
 
 const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(wallet));
 const signer = createSignerFromKeypair(umi, keypair);
@@ -17,15 +17,13 @@ umi.use(mplCore());
 
 (async () => {
     try {
-        //change the metadata uri to your metadata uri obtained from nft_metadata.ts
-        const metadataUri = "https://gateway.irys.xyz/12A3yNvKRKPmfztXL1pKmKc2SVE9E8uABEm9nz7gLbsp";
-
+        const metadataUri = "https://nft-uploader-nine.vercel.app/api/metadata/69fdbf731895e5f111800d8e";
         const asset = generateSigner(umi);
         
         //add you nft name and metadata uri
         const tx = await create(umi, {
             asset,
-            name: "Meow",
+            name: "mongo",
             uri: metadataUri,
         }).sendAndConfirm(umi);
 

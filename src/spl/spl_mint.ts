@@ -1,15 +1,16 @@
+import "dotenv/config";
 import { address, appendTransactionMessageInstruction, appendTransactionMessageInstructions, assertIsTransactionWithBlockhashLifetime, createKeyPairSignerFromBytes, createSolanaRpc, createSolanaRpcSubscriptions, createTransactionMessage, getSignatureFromTransaction, sendAndConfirmTransactionFactory, setTransactionMessageFeePayerSigner, setTransactionMessageLifetimeUsingBlockhash, signTransactionMessageWithSigners } from "@solana/kit";
 import wallet from "../../devnet-wallet.json";
 import { findAssociatedTokenPda, getCreateAssociatedTokenInstructionAsync, getMintToInstruction, TOKEN_PROGRAM_ADDRESS } from "@solana-program/token";
 
-const rpc = createSolanaRpc("https://api.devnet.solana.com");
+const rpc = createSolanaRpc(process.env.SOLANA_RPC_URL ?? "https://api.devnet.solana.com");
 
-const rpcSubscriptions = createSolanaRpcSubscriptions("wss://api.devnet.solana.com");
+const rpcSubscriptions = createSolanaRpcSubscriptions(process.env.SOLANA_WS_URL ?? "wss://api.devnet.solana.com");
 
 const token_decimals = 1_000_000n;
 
 //paste your mint address got from spl_init.ts
-const mint = address("2btcMxFXjny6xFBUiKNAjEWwjZhcXjnvhfKstHjjHBxp");
+const mint = address("Hbf5fkVGzcxqwdhHbdMjD5UBTZ6LuGvx689UnAEoUfy9");
 
 (async () => {
 
@@ -75,3 +76,8 @@ const mint = address("2btcMxFXjny6xFBUiKNAjEWwjZhcXjnvhfKstHjjHBxp");
     }
     
 })()
+
+
+
+// Your ata is : 6obyKFZ1DcS7HTFkEkdYzxWUmuTBcF2WvTR6ANQBW3F4
+// mint txid: 3NAyN6JZFXGWqAdhaR7Uxex1s1uFKmYtQQTN8mZA4HQh93Q9EM7ZyHS1MYg3gXbEyTNUWYKZPs4Nc3Rfg8kGaimP

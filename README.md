@@ -1,6 +1,6 @@
 # scripts-solana
 
-Scripts for creating SPL tokens and NFTs on Solana devnet.
+Scripts for creating SPL tokens and NFTs on Solana.
 
 ---
 
@@ -8,14 +8,12 @@ Scripts for creating SPL tokens and NFTs on Solana devnet.
 
 ### 1. Add your wallet
 
-Place your devnet wallet keypair file at the project root:
+Place your devnet wallet keypair at the project root:
 
 ```
 root/
-└── devnet-wallet.json   ← here
+└── devnet-wallet.json
 ```
-
-It should be a JSON array of numbers, e.g. `[174, 23, ...]`.
 
 ### 2. Install dependencies
 
@@ -23,50 +21,100 @@ It should be a JSON array of numbers, e.g. `[174, 23, ...]`.
 npm install
 ```
 
+### 3. Copy the env file
+
 ```bash
-npm install --save-dev @types/node ts-node typescript
+cp .env.example .env
 ```
 
-### 3. Add your image
-
-Place your image at the project root.
-
-```
-root/
-└── image.jpeg   ← here
-```
+By default `.env` points to devnet. See the **Backup** section below if devnet is down.
 
 ---
 
-> Before running the scripts, go through these docs:
-> - [Solana token docs](https://solana.com/docs/tokens) — mint accounts, token accounts, and ATAs
-> - [Solana Kit](https://www.solanakit.com/) — the JS SDK used for building and sending transactions
-> - [Metaplex Token Metadata](https://www.metaplex.com/docs/smart-contracts/token-metadata) — attaching metadata to SPL tokens
-> - [Metaplex Core](https://www.metaplex.com/docs/smart-contracts/core) — the NFT standard used in the NFT scripts
-
 ## SPL Token
 
-Uses **@solana/kit** and **@solana-program/token** for transactions, and **mpl-token-metadata** via UMI for on-chain metadata.
+Run these in order. Each script prints the address or signature you need to paste into the next one.
 
-| Script | Command | What it does |
-|---|---|---|
-| `spl_init.ts` | `npm run spl:init` | Creates a new mint account |
-| `spl_metadata.ts` | `npm run spl:metadata` | Attaches a name, symbol, and URI to the mint |
-| `spl_mint.ts` | `npm run spl:mint` | Creates your associated token account and mints tokens into it |
-| `spl_transfer.ts` | `npm run spl:transfer` | Sends tokens to another wallet i.e ata to ata |
-
-Run them in order. Each script logs the addresses/signatures you'll need to paste into the next one.
+| Command | What it does |
+|---|---|
+| `npm run spl:init` | Creates a new mint account |
+| `npm run spl:metadata` | Attaches a name, symbol, and URI to the mint |
+| `npm run spl:mint` | Creates your token account and mints tokens into it |
+| `npm run spl:transfer` | Sends tokens to another wallet |
 
 ---
 
 ## NFT
 
-Uses **@solana/kit** and **mpl-core** via UMI. Images and metadata are stored on Irys (decentralized storage).
+Add your image at the project root (`image.jpeg`), then run in order:
 
-| Script | Command | What it does |
-|---|---|---|
-| `nft_image.ts` | `npm run nft:image` | Uploads your image to Irys, logs the image URI |
-| `nft_metadata.ts` | `npm run nft:metadata` | Builds the metadata JSON and uploads it, logs the metadata URI |
-| `nft_mint.ts` | `npm run nft:mint` | Mints the NFT on-chain using the metadata URI |
+| Command | What it does |
+|---|---|
+| `npm run nft:image` | Uploads your image to Irys, prints the image URI |
+| `npm run nft:metadata` | Uploads the metadata JSON to Irys, prints the metadata URI |
+| `npm run nft:mint` | Mints the NFT on-chain using the metadata URI |
 
-Run them in order. Paste the URI logged by each step into the next script before running it.
+Paste the URI printed by each step into the next script before running it.
+
+---
+
+## Backup — if devnet is not working
+
+Use **Surfpool** (a local Solana validator) instead of devnet, and the **web app** instead of Irys.
+
+### Step 1 — Upload image and metadata using the web app
+
+Go to **https://nft-uploader-nine.vercel.app**
+
+1. Upload your image → copy the image URL
+2. Fill in the metadata form (name, description, traits) → copy the metadata URL
+3. Paste the metadata URL into `src/nft/nft_mint.ts`:
+
+```typescript
+const metadataUri = "https://nft-uploader-nine.vercel.app/api/metadata/<your-id>";
+```
+
+Skip `nft:image` and `nft:metadata` entirely — go straight to `nft:mint`.
+
+---
+
+### Step 2 — Switch to Surfpool (local validator, backup for devnet)
+
+**Edit `.env`** — comment out devnet and uncomment Surfpool:
+
+```bash
+# SOLANA_RPC_URL=https://api.devnet.solana.com
+# SOLANA_WS_URL=wss://api.devnet.solana.com
+
+SOLANA_RPC_URL=http://127.0.0.1:8899
+SOLANA_WS_URL=ws://127.0.0.1:8900
+```
+
+**Switch Solana CLI to localnet:**
+
+```bash
+solana config set --url localhost
+```
+
+**Start Surfpool:**
+
+```bash
+surfpool start
+```
+
+**Fund your wallet on localnet:**
+
+```bash
+solana airdrop 5 devnet-wallet.json
+```
+
+**Run the mint:**
+
+```bash
+npm run nft:mint
+```
+
+**Check your NFT** on Metaplex Explorer (make sure to select `localhost` as the network):
+https://core.metaplex.com/explorer/<asset-address>?env=localhost
+
+> Note: Surfpool resets every time it restarts — you'll need to airdrop SOL again each session.

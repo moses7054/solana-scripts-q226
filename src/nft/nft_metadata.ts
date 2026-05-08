@@ -1,9 +1,10 @@
+import "dotenv/config";
 import { createSignerFromKeypair, signerIdentity } from "@metaplex-foundation/umi";
 import wallet from "../../devnet-wallet.json";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 import { irysUploader } from "@metaplex-foundation/umi-uploader-irys";
 
-const umi = createUmi("https://api.devnet.solana.com");
+const umi = createUmi(process.env.SOLANA_RPC_URL ?? "https://api.devnet.solana.com");
 
 const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(wallet));
 const signer = createSignerFromKeypair(umi, keypair);
@@ -20,7 +21,7 @@ umi.use(signerIdentity(signer));
 (async () => {
     try {
         //change the image uri to your image uri obtained from nft_image.ts
-        const image = "https://gateway.irys.xyz/23Y2rj4fqDwVASni2JRsHDgJ18kDT8tUAcyk79JDGoKk";
+        const image = "https://gateway.irys.xyz/8rbpZfo6zYR8XQnWKay5JP6U2Pv2bfUqHoL8AM9y55z1";
 
         //json scheme : https://www.metaplex.com/docs/smart-contracts/core/json-schema
         //change the metadata

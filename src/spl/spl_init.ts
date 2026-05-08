@@ -1,14 +1,13 @@
-import { appendTransactionMessageInstruction, appendTransactionMessageInstructions, assertIsTransactionMessageWithBlockhashLifetime, assertIsTransactionWithBlockhashLifetime, createKeyPairSignerFromBytes, createSolanaRpc, createSolanaRpcSubscriptions, createTransactionMessage, generateKeyPairSigner, getSignatureFromTransaction, sendAndConfirmTransactionFactory, setTransactionMessageFeePayerSigner, setTransactionMessageLifetimeUsingBlockhash, signTransactionMessageWithSigners } from "@solana/kit";
+import "dotenv/config";
+import {appendTransactionMessageInstructions, assertIsTransactionWithBlockhashLifetime, createKeyPairSignerFromBytes, createSolanaRpc, createSolanaRpcSubscriptions, createTransactionMessage, generateKeyPairSigner, getSignatureFromTransaction, sendAndConfirmTransactionFactory, setTransactionMessageFeePayerSigner, setTransactionMessageLifetimeUsingBlockhash, signTransactionMessageWithSigners } from "@solana/kit";
 import { getInitializeMintInstruction, getMintSize, TOKEN_PROGRAM_ADDRESS } from "@solana-program/token";
 import { getCreateAccountInstruction } from "@solana-program/system";
 
-//import your wallet
 import wallet from "../../devnet-wallet.json";
 
+const rpc = createSolanaRpc(process.env.SOLANA_RPC_URL ?? "https://api.devnet.solana.com");
 
-const rpc = createSolanaRpc("https://api.devnet.solana.com");
-
-const rpcSubscriptions = createSolanaRpcSubscriptions("wss://api.devnet.solana.com");
+const rpcSubscriptions = createSolanaRpcSubscriptions(process.env.SOLANA_WS_URL ?? "wss://api.devnet.solana.com");
 
 (async () => {
 try {
@@ -75,3 +74,7 @@ catch (error) {
     console.log(error);
 }
 })();
+
+
+// //surfpool
+// mint address: Hbf5fkVGzcxqwdhHbdMjD5UBTZ6LuGvx689UnAEoUfy9. Transaction Signature: 36GAciPsPZYKTkJEto7nbqiTX6B8HfJnXsfGr7zRRpdViC5bZofFUTR8pQwc7vBQU8bYmgSToJ7hSbs9LLnPHXCM

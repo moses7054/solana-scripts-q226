@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { createSignerFromKeypair, publicKey, signerIdentity } from "@metaplex-foundation/umi";
 import wallet from "../../devnet-wallet.json";
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
@@ -5,9 +6,9 @@ import { createMetadataAccountV3, CreateMetadataAccountV3InstructionAccounts, Cr
 import bs58 from "bs58"
 
 //paste your mint address got from spl_init.ts
-const mint = publicKey("2btcMxFXjny6xFBUiKNAjEWwjZhcXjnvhfKstHjjHBxp");
+const mint = publicKey("Hbf5fkVGzcxqwdhHbdMjD5UBTZ6LuGvx689UnAEoUfy9");
 
-const umi = createUmi("https://api.devnet.solana.com");
+const umi = createUmi(process.env.SOLANA_RPC_URL ?? "https://api.devnet.solana.com");
 
 const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(wallet));
 const signer = createSignerFromKeypair(umi, keypair);
@@ -53,3 +54,5 @@ umi.use(signerIdentity(signer));
 })()
 
 //43ttSnN9qaVi8TDcWwBZo5mUbfKDXY8d1N7exdJojJxV7qjKuwXoEh7qASXbFU4QFrAEFzZvcmWpRch434hSVNLN
+
+//4Zt5hvNGgyPwAEnAzBGkyx3CUx6YNKUqw41UqNRqWnVYNykfs3NKc7vayM376R7amQnwxWiLuhMLUdRx3ALq6Tsa
